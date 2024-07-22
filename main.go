@@ -23,6 +23,7 @@ var (
 	mutex     = &sync.Mutex{}
 )
 
+// read messages from broadcast channel and write to client (websocket connection)
 func handleClients() {
 	for {
 		msg := <-broadcast
@@ -38,6 +39,8 @@ func handleClients() {
 	}
 }
 
+// upgrade http connection to a websocket connection
+// read messages from websocket connection and send to broadcast channel
 func wsHandler(w http.ResponseWriter, r *http.Request) {
 	conn, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
@@ -69,7 +72,9 @@ func wsHandler(w http.ResponseWriter, r *http.Request) {
 func main() {
 	http.HandleFunc("/ws", wsHandler)
 	http.Handle("/", http.FileServer(http.Dir(".")))
+
 	go handleClients()
+
 	log.Println("Server started on :8080")
 	if err := http.ListenAndServe(":8080", nil); err != nil {
 		log.Fatal("Error on Listen and Serve: ", err)

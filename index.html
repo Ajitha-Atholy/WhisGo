@@ -11,17 +11,18 @@
             padding: 10px;
             overflow-y: scroll;
             margin-bottom: 10px;
+            background-color: cornsilk;
         }
         #message {
             width: 80%;
         }
     </style>
 </head>
-<body>
-    <h1 style="text-align: center">WhisGo</h1>
+<body style="background-color: bisque;">
+    <h1 style="text-align: center; color: darkblue;">WhisGo</h1>
     <div id="chat"></div>
     <input type="text" id="message" autocomplete="off">
-    <button onclick="sendMessage()">Send</button>
+    <button style="background-color: darkblue;color: #ccc;" onclick="sendMessage()">Send</button>
 
     <script>
         const ws = new WebSocket("ws://localhost:8080/ws");
